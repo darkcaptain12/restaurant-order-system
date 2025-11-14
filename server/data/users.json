@@ -3,78 +3,161 @@
     "id": "admin",
     "username": "admin",
     "role": "admin",
-    "pin": "5678"
+    "pin": "5678",
+    "branchId": "default"
   },
   {
     "id": "kitchen",
     "username": "mutfak",
     "role": "kitchen",
-    "pin": "mutfak"
+    "pin": "mutfak",
+    "branchId": "default"
   },
   {
     "id": "bar",
     "username": "bar",
     "role": "bar",
-    "pin": "bar"
+    "pin": "bar",
+    "branchId": "default"
   },
   {
     "id": "waiter_1762985143662",
     "username": "1",
     "role": "waiter",
-    "pin": "1"
+    "pin": "1",
+    "branchId": "default"
   },
   {
     "id": "waiter_1762985147827",
     "username": "2",
     "role": "waiter",
-    "pin": "2"
+    "pin": "2",
+    "branchId": "default"
   },
   {
     "id": "cashier_1762985151906",
     "username": "1",
     "role": "cashier",
-    "pin": "11"
+    "pin": "11",
+    "branchId": "default"
   },
   {
     "id": "waiter_1762987749608",
     "username": "testuser",
     "role": "waiter",
-    "pin": "1234"
+    "pin": "1234",
+    "branchId": "default"
   },
   {
     "id": "waiter_1762987773535",
     "username": "waiter_test",
     "role": "waiter",
-    "pin": "1234"
+    "pin": "1234",
+    "branchId": "default"
   },
   {
     "id": "waiter_ahmet",
     "username": "Ahmet",
     "role": "waiter",
-    "pin": "1234"
+    "pin": "1234",
+    "branchId": "default"
   },
   {
     "id": "waiter_mehmet",
     "username": "Mehmet",
     "role": "waiter",
-    "pin": "4321"
+    "pin": "4321",
+    "branchId": "default"
   },
   {
     "id": "waiter_1762988414961",
     "username": "new_waiter_001",
     "role": "waiter",
-    "pin": "5678"
+    "pin": "5678",
+    "branchId": "default"
   },
   {
     "id": "waiter_1763050202205",
     "username": "new_waiter_002",
     "role": "waiter",
-    "pin": "7890"
+    "pin": "7890",
+    "branchId": "default"
   },
   {
     "id": "waiter_1763050394957",
     "username": "test_add_user",
     "role": "waiter",
-    "pin": "9999"
+    "pin": "9999",
+    "branchId": "default"
+  },
+  {
+    "id": "waiter_1763150838178",
+    "username": "1",
+    "role": "waiter",
+    "pin": "12",
+    "branchId": "default"
+  },
+  {
+    "id": "admin_merkez",
+    "username": "admin",
+    "role": "admin",
+    "pin": "2222",
+    "branchId": "2"
+  },
+  {
+    "id": "kitchen_merkez",
+    "username": "mutfak",
+    "role": "kitchen",
+    "pin": "mutfak2",
+    "branchId": "2"
+  },
+  {
+    "id": "bar_merkez",
+    "username": "bar",
+    "role": "bar",
+    "pin": "bar2",
+    "branchId": "2"
+  },
+  {
+    "id": "cashier_merkez",
+    "username": "kasa",
+    "role": "cashier",
+    "pin": "kasa2",
+    "branchId": "2"
+  },
+  {
+    "id": "admin_nilufer",
+    "username": "admin",
+    "role": "admin",
+    "pin": "1111",
+    "branchId": "1"
+  },
+  {
+    "id": "kitchen_nilufer",
+    "username": "mutfak",
+    "role": "kitchen",
+    "pin": "mutfak1",
+    "branchId": "1"
+  },
+  {
+    "id": "bar_nilufer",
+    "username": "bar",
+    "role": "bar",
+    "pin": "bar1",
+    "branchId": "1"
+  },
+  {
+    "id": "cashier_nilufer",
+    "username": "kasa",
+    "role": "cashier",
+    "pin": "kasa1",
+    "branchId": "1"
+  },
+  {
+    "id": "waiter_1763152758141",
+    "username": "Nilüfer Şube",
+    "role": "waiter",
+    "pin": "99",
+    "branchId": "1"
   }
 ]

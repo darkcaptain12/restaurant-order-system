@@ -12,7 +12,8 @@
         "price": 200,
         "category": "kitchen",
         "status": "CANCELLED",
-        "cancelledReason": "jhbj"
+        "cancelledReason": "jhbj",
+        "branchId": "default"
       },
       {
         "id": "1c96e6a3-25e3-4918-b400-4d732361082a",
@@ -21,7 +22,8 @@
         "quantity": 1,
         "price": 50,
         "category": "bar",
-        "status": "SERVED"
+        "status": "SERVED",
+        "branchId": "default"
       },
       {
         "id": "f985ff31-a0d7-44ac-bfa9-adb87fa45364",
@@ -31,11 +33,13 @@
         "price": 120,
         "category": "kitchen",
         "status": "CANCELLED",
-        "cancelledReason": "vj"
+        "cancelledReason": "vj",
+        "branchId": "default"
       }
     ],
     "createdAt": "2025-11-12T21:30:21.480Z",
-    "totalAmount": 370
+    "totalAmount": 370,
+    "branchId": "default"
   },
   {
     "id": "42920c59-6432-4bc9-bc69-face6a232e43",
@@ -50,7 +54,8 @@
         "quantity": 1,
         "price": 200,
         "category": "kitchen",
-        "status": "READY"
+        "status": "READY",
+        "branchId": "default"
       },
       {
         "id": "1583d321-405f-4e46-a12a-c8d80c2bd24f",
@@ -59,7 +64,8 @@
         "quantity": 1,
         "price": 300,
         "category": "bar",
-        "status": "READY"
+        "status": "READY",
+        "branchId": "default"
       },
       {
         "id": "6d0e570a-5c95-4fdc-b07e-b3bbfa3e9a3e",
@@ -68,7 +74,8 @@
         "quantity": 1,
         "price": 40,
         "category": "bar",
-        "status": "READY"
+        "status": "READY",
+        "branchId": "default"
       }
     ],
     "createdAt": "2025-11-12T22:12:21.146Z",
@@ -82,7 +89,8 @@
       "paidAt": "2025-11-12T22:12:42.674Z",
       "cashierId": "cashier_1762985151906",
       "cashierName": "1"
-    }
+    },
+    "branchId": "default"
   },
   {
     "id": "684bbec4-d818-40e7-86c9-cff801d66f12",
@@ -97,7 +105,8 @@
         "quantity": 1,
         "price": 200,
         "category": "kitchen",
-        "status": "READY"
+        "status": "READY",
+        "branchId": "default"
       }
     ],
     "createdAt": "2025-11-12T22:12:35.366Z",
@@ -111,7 +120,8 @@
       "paidAt": "2025-11-12T22:12:42.674Z",
       "cashierId": "cashier_1762985151906",
       "cashierName": "1"
-    }
+    },
+    "branchId": "default"
   },
   {
     "id": "4a3c60a0-048e-4524-99a0-05c1583f62ca",
@@ -126,7 +136,8 @@
         "quantity": 1,
         "price": 150,
         "category": "kitchen",
-        "status": "READY"
+        "status": "READY",
+        "branchId": "default"
       }
     ],
     "createdAt": "2025-11-12T22:49:35.864Z",
@@ -140,7 +151,8 @@
       "paidAt": "2025-11-13T16:05:20.911Z",
       "cashierId": "cashier_1762985151906",
       "cashierName": "1"
-    }
+    },
+    "branchId": "default"
   },
   {
     "id": "523d2586-7f14-4a36-a358-12ee538fe21f",
@@ -155,7 +167,8 @@
         "quantity": 1,
         "price": 150,
         "category": "kitchen",
-        "status": "READY"
+        "status": "READY",
+        "branchId": "default"
       }
     ],
     "createdAt": "2025-11-12T22:49:50.982Z",
@@ -169,7 +182,8 @@
       "paidAt": "2025-11-13T16:05:20.911Z",
       "cashierId": "cashier_1762985151906",
       "cashierName": "1"
-    }
+    },
+    "branchId": "default"
   },
   {
     "id": "cf977afc-1473-441d-b659-a8d68502f314",
@@ -184,7 +198,8 @@
         "quantity": 1,
         "price": 150,
         "category": "kitchen",
-        "status": "IN_PROGRESS"
+        "status": "IN_PROGRESS",
+        "branchId": "default"
       },
       {
         "id": "bb0a5c17-40a7-4282-95b9-3c937e407a39",
@@ -193,7 +208,8 @@
         "quantity": 1,
         "price": 100,
         "category": "kitchen",
-        "status": "IN_PROGRESS"
+        "status": "IN_PROGRESS",
+        "branchId": "default"
       }
     ],
     "createdAt": "2025-11-12T23:00:15.294Z",
@@ -207,7 +223,8 @@
       "paidAt": "2025-11-13T16:05:15.879Z",
       "cashierId": "cashier_1762985151906",
       "cashierName": "1"
-    }
+    },
+    "branchId": "default"
   },
   {
     "id": "5ac6c867-9c17-4760-a4c3-9d5ffae80569",
@@ -222,7 +239,8 @@
         "quantity": 1,
         "price": 150,
         "category": "kitchen",
-        "status": "PENDING"
+        "status": "PENDING",
+        "branchId": "default"
       }
     ],
     "createdAt": "2025-11-12T23:00:17.671Z",
@@ -236,7 +254,8 @@
       "paidAt": "2025-11-13T16:05:15.879Z",
       "cashierId": "cashier_1762985151906",
       "cashierName": "1"
-    }
+    },
+    "branchId": "default"
   },
   {
     "id": "8a7c2596-c3d6-4c4d-97ce-120301280ba7",
@@ -251,7 +270,8 @@
         "quantity": 1,
         "price": 150,
         "category": "kitchen",
-        "status": "PENDING"
+        "status": "PENDING",
+        "branchId": "default"
       },
       {
         "id": "bdacdcd8-26fd-422d-90d9-f8117af3c155",
@@ -260,7 +280,8 @@
         "quantity": 1,
         "price": 200,
         "category": "kitchen",
-        "status": "PENDING"
+        "status": "PENDING",
+        "branchId": "default"
       }
     ],
     "createdAt": "2025-11-12T23:00:26.715Z",
@@ -274,7 +295,8 @@
       "paidAt": "2025-11-13T16:05:20.911Z",
       "cashierId": "cashier_1762985151906",
       "cashierName": "1"
-    }
+    },
+    "branchId": "default"
   },
   {
     "id": "c93d34fe-501b-4756-a67c-23595c6c6cfb",
@@ -289,7 +311,8 @@
         "quantity": 1,
         "price": 150,
         "category": "kitchen",
-        "status": "PENDING"
+        "status": "PENDING",
+        "branchId": "default"
       }
     ],
     "createdAt": "2025-11-12T23:01:08.829Z",
@@ -303,7 +326,8 @@
       "paidAt": "2025-11-13T16:05:20.911Z",
       "cashierId": "cashier_1762985151906",
       "cashierName": "1"
-    }
+    },
+    "branchId": "default"
   },
   {
     "id": "80b26acc-88e3-43ca-88ce-b2a116d82543",
@@ -318,7 +342,8 @@
         "quantity": 1,
         "price": 150,
         "category": "kitchen",
-        "status": "PENDING"
+        "status": "PENDING",
+        "branchId": "default"
       }
     ],
     "createdAt": "2025-11-12T23:01:10.062Z",
@@ -332,7 +357,8 @@
       "paidAt": "2025-11-13T16:05:15.879Z",
       "cashierId": "cashier_1762985151906",
       "cashierName": "1"
-    }
+    },
+    "branchId": "default"
   },
   {
     "id": "3b98a679-35e4-457f-87d8-547f45673765",
@@ -347,12 +373,14 @@
         "quantity": 1,
         "price": 150,
         "category": "kitchen",
-        "status": "PENDING"
+        "status": "PENDING",
+        "branchId": "default"
       }
     ],
     "createdAt": "2025-11-13T16:10:10.562Z",
     "totalAmount": 150,
-    "isPaid": false
+    "isPaid": false,
+    "branchId": "default"
   },
   {
     "id": "64ac65da-0377-43a1-863e-d5faead543b4",
@@ -367,12 +395,14 @@
         "quantity": 1,
         "price": 150,
         "category": "kitchen",
-        "status": "PENDING"
+        "status": "PENDING",
+        "branchId": "default"
       }
     ],
     "createdAt": "2025-11-13T16:10:36.694Z",
     "totalAmount": 150,
-    "isPaid": false
+    "isPaid": false,
+    "branchId": "default"
   },
   {
     "id": "a1a9e654-1c77-48de-8f21-f68e69ad6aa8",
@@ -387,7 +417,8 @@
         "quantity": 1,
         "price": 150,
         "category": "kitchen",
-        "status": "PENDING"
+        "status": "PENDING",
+        "branchId": "default"
       },
       {
         "id": "c8428b41-22e6-4c96-9b28-650e4484a775",
@@ -396,12 +427,14 @@
         "quantity": 1,
         "price": 100,
         "category": "kitchen",
-        "status": "PENDING"
+        "status": "PENDING",
+        "branchId": "default"
       }
     ],
     "createdAt": "2025-11-13T16:10:44.898Z",
     "totalAmount": 250,
-    "isPaid": false
+    "isPaid": false,
+    "branchId": "default"
   },
   {
     "id": "7870e31a-da63-44f2-b583-82a5a105c366",
@@ -416,12 +449,14 @@
         "quantity": 1,
         "price": 150,
         "category": "kitchen",
-        "status": "PENDING"
+        "status": "PENDING",
+        "branchId": "default"
       }
     ],
     "createdAt": "2025-11-13T16:11:02.400Z",
     "totalAmount": 150,
-    "isPaid": false
+    "isPaid": false,
+    "branchId": "default"
   },
   {
     "id": "6df59bc2-7e51-425f-9709-857d0ecfb3b3",
@@ -436,11 +471,44 @@
         "quantity": 1,
         "price": 150,
         "category": "kitchen",
-        "status": "PENDING"
+        "status": "PENDING",
+        "branchId": "default"
       }
     ],
     "createdAt": "2025-11-13T16:11:48.923Z",
     "totalAmount": 150,
-    "isPaid": false
+    "isPaid": false,
+    "branchId": "default"
+  },
+  {
+    "id": "43cdb25c-8e1f-4e9b-91b8-f2438cfb9ca8",
+    "waiterId": "waiter_1763152758141",
+    "waiterName": "Nilüfer Şube",
+    "tableNumber": 1,
+    "items": [
+      {
+        "id": "9f5803cf-72a1-4217-9000-cbdef30d87db",
+        "menuItemId": "1763152783406",
+        "menuItemName": "aa",
+        "quantity": 1,
+        "price": 150,
+        "category": "kitchen",
+        "status": "PENDING",
+        "branchId": "1"
+      }
+    ],
+    "createdAt": "2025-11-14T20:39:57.664Z",
+    "totalAmount": 150,
+    "isPaid": true,
+    "branchId": "1",
+    "payment": {
+      "method": "cash",
+      "amount": 150,
+      "discount": 0,
+      "finalAmount": 150,
+      "paidAt": "2025-11-14T20:40:17.066Z",
+      "cashierId": "cashier_nilufer",
+      "cashierName": "kasa"
+    }
   }
 ]

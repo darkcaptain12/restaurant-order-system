@@ -1,13 +1,42 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
+import { getApiUrl } from '../config';
+
+interface Branch {
+  id: string;
+  name: string;
+}
 
 export default function Login() {
   const [pin, setPin] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [branch, setBranch] = useState('');
+  const [branches, setBranches] = useState<Branch[]>([]);
   const { login } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Şubeleri yükle
+    fetch(getApiUrl('/api/branches'))
+      .then(res => res.json())
+      .then(data => {
+        setBranches(data);
+        if (data.length > 0) {
+          setBranch(data[0].id);
+        }
+      })
+      .catch(err => {
+        console.error('Failed to fetch branches:', err);
+        // Fallback: varsayılan şubeler
+        setBranches([
+          { id: '1', name: 'Nilüfer' },
+          { id: '2', name: 'Merkez' }
+        ]);
+        setBranch('1');
+      });
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,8 +49,14 @@ export default function Login() {
       return;
     }
 
+    if (!branch) {
+      setError('Şube seçimi gerekli');
+      setLoading(false);
+      return;
+    }
+
     try {
-      const result = await login(pin.trim(), null, '');
+      const result = await login(pin.trim(), branch, '');
 
       if (result.success && result.user) {
       const routes: Record<string, string> = {
@@ -53,6 +88,24 @@ export default function Login() {
         </div>
         
         <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Şube Seç
+            </label>
+            <select
+              value={branch}
+              onChange={(e) => setBranch(e.target.value)}
+              className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg"
+              required
+            >
+              <option value="">Şube Seçiniz</option>
+              {branches.map((b) => (
+                <option key={b.id} value={b.id}>
+                  {b.name}
+                </option>
+              ))}
+            </select>
+          </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               PIN / Şifre

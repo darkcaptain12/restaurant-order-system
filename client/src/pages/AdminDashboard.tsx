@@ -80,6 +80,25 @@ export default function AdminDashboard() {
   const [weeklyEnd, setWeeklyEnd] = useState('');
   const [monthlyStart, setMonthlyStart] = useState('');
   const [monthlyEnd, setMonthlyEnd] = useState('');
+  const [branches, setBranches] = useState<Array<{ id: string; name: string }>>([]);
+  const [currentBranchId, setCurrentBranchId] = useState<string>('');
+  const [showBranchSwitchModal, setShowBranchSwitchModal] = useState(false);
+  const [branchSwitchPin, setBranchSwitchPin] = useState('');
+  const [branchSwitchTarget, setBranchSwitchTarget] = useState('');
+
+  useEffect(() => {
+    // Şubeleri yükle
+    fetch(getApiUrl('/api/branches'))
+      .then(res => res.json())
+      .then(data => {
+        setBranches(data);
+      })
+      .catch(err => console.error('Failed to fetch branches:', err));
+
+    // Mevcut şube ID'sini localStorage'dan al
+    const savedBranchId = localStorage.getItem('selectedBranch') || '';
+    setCurrentBranchId(savedBranchId);
+  }, []);
 
   useEffect(() => {
     if (activeTab === 'live') {
@@ -360,6 +379,39 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleBranchSwitch = async () => {
+    if (!branchSwitchPin || !branchSwitchTarget) {
+      alert('PIN gerekli');
+      return;
+    }
+
+    try {
+      const res = await fetch(getApiUrl('/api/admin/switch-branch'), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ branchId: branchSwitchTarget, pin: branchSwitchPin })
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        localStorage.setItem('selectedBranch', branchSwitchTarget);
+        setCurrentBranchId(branchSwitchTarget);
+        setShowBranchSwitchModal(false);
+        setBranchSwitchPin('');
+        setBranchSwitchTarget('');
+        // Sayfayı yenile
+        window.location.reload();
+      } else {
+        const error = await res.json();
+        alert(error.error || 'Şube değiştirilemedi');
+      }
+    } catch (error) {
+      console.error('Failed to switch branch:', error);
+      alert('Hata oluştu');
+    }
+  };
+
   const handleAddMenuItem = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newMenuItem.name.trim() || !newMenuItem.price) {
@@ -602,6 +654,23 @@ export default function AdminDashboard() {
             </h1>
           </div>
           <div className="flex items-center gap-3">
+            <select
+              value={currentBranchId}
+              onChange={(e) => {
+                const targetBranchId = e.target.value;
+                if (targetBranchId && targetBranchId !== currentBranchId) {
+                  setBranchSwitchTarget(targetBranchId);
+                  setShowBranchSwitchModal(true);
+                }
+              }}
+              className="px-3 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white shadow-sm"
+            >
+              {branches.map((b) => (
+                <option key={b.id} value={b.id}>
+                  {b.name}
+                </option>
+              ))}
+            </select>
             <div className="flex gap-2">
               <button
                 onClick={() => handleSwitchRole('kitchen')}
@@ -1266,6 +1335,70 @@ export default function AdminDashboard() {
           </div>
         )}
       </div>
+
+      {/* Şube Değiştirme Modal */}
+      {showBranchSwitchModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-xl shadow-2xl max-w-md w-full mx-4">
+            <h3 className="text-xl font-bold text-gray-800 mb-4">
+              Şube Değiştir
+            </h3>
+            <p className="text-gray-600 mb-4">
+              Şube değiştirmek için PIN'inizi girin:
+            </p>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Hedef Şube
+                </label>
+                <select
+                  value={branchSwitchTarget}
+                  onChange={(e) => setBranchSwitchTarget(e.target.value)}
+                  className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                >
+                  <option value="">Şube Seçiniz</option>
+                  {branches.map((b) => (
+                    <option key={b.id} value={b.id}>
+                      {b.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  PIN
+                </label>
+                <input
+                  type="password"
+                  value={branchSwitchPin}
+                  onChange={(e) => setBranchSwitchPin(e.target.value)}
+                  placeholder="PIN girin"
+                  className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  autoFocus
+                />
+              </div>
+            </div>
+            <div className="flex gap-2 mt-6">
+              <button
+                onClick={handleBranchSwitch}
+                className="flex-1 bg-indigo-500 hover:bg-indigo-600 text-white py-2 rounded-lg font-semibold transition-all"
+              >
+                Onayla
+              </button>
+              <button
+                onClick={() => {
+                  setShowBranchSwitchModal(false);
+                  setBranchSwitchPin('');
+                  setBranchSwitchTarget('');
+                }}
+                className="flex-1 bg-gray-500 hover:bg-gray-600 text-white py-2 rounded-lg font-semibold transition-all"
+              >
+                İptal
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

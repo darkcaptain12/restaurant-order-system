@@ -9,6 +9,7 @@ export interface User {
   username: string;
   role: UserRole;
   pin: string | null;
+  branchId: string; // Zorunlu
 }
 
 export interface MenuItem {
@@ -18,6 +19,7 @@ export interface MenuItem {
   category: 'kitchen' | 'bar' | 'dessert' | 'campaign';
   menuCategory?: string; // Ana kategori: 'food', 'drink', 'dessert', 'campaign'
   items?: Array<{ id: string; name: string; category: 'kitchen' | 'bar' }>; // Kampanya menüleri için
+  branchId: string; // Zorunlu
 }
 
 export interface OrderItem {
@@ -29,6 +31,7 @@ export interface OrderItem {
   category: 'kitchen' | 'bar';
   status: OrderStatus;
   cancelledReason?: string;
+  branchId: string; // Zorunlu
 }
 
 export interface Payment {
@@ -51,6 +54,7 @@ export interface Order {
   totalAmount: number;
   payment?: Payment;
   isPaid: boolean;
+  branchId: string; // Zorunlu
 }
 
 export interface DailyReport {

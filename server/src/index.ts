@@ -12,6 +12,17 @@ import {
   writeMenu,
 } from './dataManager.js';
 import {
+  readUsersByBranch,
+  writeUsersByBranch,
+  readMenuByBranch,
+  writeMenuByBranch,
+  readOrdersByBranch,
+  writeOrdersByBranch,
+  readCompletedOrdersByBranch,
+  writeCompletedOrdersByBranch,
+  readBranches
+} from './dataManager.js';
+import {
   getUserByPin,
   getUserByRole,
   getAllUsers,
@@ -85,65 +96,122 @@ app.use(
   })
 );
 
-// WebSocket clients
-const clients = new Set<any>();
+// WebSocket clients - branchId ile eşleştirilmiş
+const clients = new Map<any, string>();
 
-wss.on('connection', (ws) => {
-  clients.add(ws);
+wss.on('connection', (ws: any, req: any) => {
+  // WebSocket bağlantısında branchId bilgisi alınmalı
+  let branchId = 'default';
+  
+  try {
+    if (req.url) {
+      const url = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
+      branchId = url.searchParams.get('branchId') || 'default';
+    }
+  } catch (error) {
+    console.error('Failed to parse WebSocket URL:', error);
+  }
+  
+  clients.set(ws, branchId);
+  console.log(`WebSocket connected for branch: ${branchId}`);
 
   ws.on('close', () => {
     clients.delete(ws);
   });
 });
 
-function broadcast(data: any) {
+// Belirli bir branch'e mesaj gönder
+function broadcastToBranch(branchId: string, data: any) {
   const message = JSON.stringify(data);
-  clients.forEach((client) => {
-    if (client.readyState === 1) {
-      client.send(message);
+  clients.forEach((clientBranchId, client) => {
+    // Map.forEach: (value, key) -> (branchId, client)
+    if (clientBranchId === branchId && (client as any).readyState === 1) {
+      (client as any).send(message);
     }
   });
 }
 
+// Tüm branch'lere mesaj gönder (eski davranış için)
+function broadcast(data: any) {
+  const message = JSON.stringify(data);
+  clients.forEach((clientBranchId, client) => {
+    // Map.forEach: (value, key) -> (branchId, client)
+    if ((client as any).readyState === 1) {
+      (client as any).send(message);
+    }
+  });
+}
+
+function getBranchId(req: any): string {
+  // Önce session'dan al, yoksa body'den, yoksa query'den, yoksa default
+  return req.session?.branchId || req.body?.branchId || req.query?.branchId || 'default';
+}
+
+// BranchId validasyonu
+function validateBranchId(branchId: string | undefined): string {
+  if (!branchId) {
+    throw new Error('branchId is required');
+  }
+  return branchId;
+}
+
+// Branches endpoint
+app.get('/api/branches', (req, res) => {
+  const branches = readBranches();
+  res.json(branches);
+});
+
 // Auth routes
 app.post('/api/auth/login', async (req, res) => {
-  const { pin } = req.body;
+  const { pin, branchId } = req.body;
 
   if (!pin) {
     return res.status(400).json({ error: 'PIN/Şifre gerekli' });
   }
 
-  // Özel kelimeler kontrolü
+  if (!branchId) {
+    return res.status(400).json({ error: 'branchId gerekli' });
+  }
+
+  // Özel kelimeler kontrolü (mutfak, bar, kasa)
   if (pin.toLowerCase() === 'mutfak') {
-    const user = getUserByRole('kitchen');
+    const user = getUserByRole('kitchen', branchId);
     if (user) {
+      (req.session as any).branchId = branchId;
       (req.session as any).user = user;
       return res.json({ user });
     }
+    return res.status(401).json({ error: 'Geçersiz PIN/Şifre veya şube' });
   }
 
   if (pin.toLowerCase() === 'bar') {
-    const user = getUserByRole('bar');
+    const user = getUserByRole('bar', branchId);
     if (user) {
+      (req.session as any).branchId = branchId;
       (req.session as any).user = user;
       return res.json({ user });
     }
+    return res.status(401).json({ error: 'Geçersiz PIN/Şifre veya şube' });
   }
 
   if (pin.toLowerCase() === 'kasa') {
-    const user = getUserByRole('cashier');
+    const user = getUserByRole('cashier', branchId);
     if (user) {
+      (req.session as any).branchId = branchId;
       (req.session as any).user = user;
       return res.json({ user });
     }
+    return res.status(401).json({ error: 'Geçersiz PIN/Şifre veya şube' });
   }
 
-  // PIN ile kullanıcı bulma
-  const user = getUserByPin(pin);
+  // PIN ve branchId ile kullanıcı bulma
+  const user = getUserByPin(pin, branchId);
   if (!user) {
-    return res.status(401).json({ error: 'Geçersiz PIN/Şifre' });
+    return res.status(401).json({ error: 'Geçersiz PIN/Şifre veya şube' });
   }
 
+  // Branch attach
+  (req.session as any).branchId = branchId;
   (req.session as any).user = user;
   return res.json({ user });
 });
@@ -170,7 +238,8 @@ app.get('/api/admin/users', (req, res) => {
     return res.status(403).json({ error: 'Unauthorized' });
   }
 
-  const users = getAllUsers();
+  const branchId = validateBranchId(getBranchId(req));
+  const users = getAllUsers(branchId);
   const staff = users.filter((u) => u.role === 'waiter' || u.role === 'cashier');
   res.json(staff);
 });
@@ -181,6 +250,7 @@ app.post('/api/admin/users', (req, res) => {
     return res.status(403).json({ error: 'Unauthorized' });
   }
 
+  const branchId = validateBranchId(getBranchId(req));
   const { username, pin, role } = req.body;
   if (!username || !pin || !role) {
     return res
@@ -192,9 +262,16 @@ app.post('/api/admin/users', (req, res) => {
     return res.status(400).json({ error: 'Geçersiz rol (waiter veya cashier olmalı)' });
   }
 
-  const newUser = createUser(username, pin, role);
-  broadcast({ type: 'USER_CREATED', user: newUser });
-  res.json(newUser);
+  try {
+    const newUser = createUser(username, pin, role, branchId);
+    broadcastToBranch(branchId, { type: 'USER_CREATED', user: newUser });
+    res.json(newUser);
+  } catch (error: any) {
+    if (error.message === 'PIN already in use') {
+      return res.status(400).json({ error: 'PIN already in use' });
+    }
+    return res.status(500).json({ error: error.message || 'Kullanıcı eklenemedi' });
+  }
 });
 
 app.delete('/api/admin/users/:id', (req, res) => {
@@ -203,6 +280,7 @@ app.delete('/api/admin/users/:id', (req, res) => {
     return res.status(403).json({ error: 'Unauthorized' });
   }
 
+  const branchId = validateBranchId(getBranchId(req));
   const { id } = req.params;
   const { role } = req.query;
 
@@ -210,9 +288,9 @@ app.delete('/api/admin/users/:id', (req, res) => {
     return res.status(400).json({ error: 'Geçersiz rol' });
   }
 
-  const success = deleteUser(id, role as 'waiter' | 'cashier');
+  const success = deleteUser(id, role as 'waiter' | 'cashier', branchId);
   if (success) {
-    broadcast({ type: 'USER_DELETED', userId: id });
+    broadcastToBranch(branchId, { type: 'USER_DELETED', userId: id });
     res.json({ success: true });
   } else {
     res.status(404).json({ error: 'Kullanıcı bulunamadı' });
@@ -225,15 +303,16 @@ app.post('/api/admin/switch', (req, res) => {
     return res.status(403).json({ error: 'Unauthorized' });
   }
 
+  const branchId = validateBranchId(getBranchId(req));
   const { role } = req.body;
   let targetUser;
 
   if (role === 'kitchen') {
-    targetUser = getUserByRole('kitchen');
+    targetUser = getUserByRole('kitchen', branchId);
   } else if (role === 'bar') {
-    targetUser = getUserByRole('bar');
+    targetUser = getUserByRole('bar', branchId);
   } else if (role === 'cashier') {
-    targetUser = getUserByRole('cashier');
+    targetUser = getUserByRole('cashier', branchId);
   } else if (role === 'admin') {
     targetUser = user;
   } else {
@@ -248,9 +327,34 @@ app.post('/api/admin/switch', (req, res) => {
   res.json({ user: targetUser });
 });
 
+// Admin branch switch endpoint (PIN doğrulama ile)
+app.post('/api/admin/switch-branch', async (req, res) => {
+  const user = (req.session as any)?.user;
+  if (!user || user.role !== 'admin') {
+    return res.status(403).json({ error: 'Unauthorized' });
+  }
+
+  const { branchId, pin } = req.body;
+  if (!branchId || !pin) {
+    return res.status(400).json({ error: 'branchId ve PIN gerekli' });
+  }
+
+  // Admin PIN'ini doğrula
+  const adminUser = getUserByPin(pin, branchId);
+  if (!adminUser || adminUser.role !== 'admin') {
+    return res.status(401).json({ error: 'Geçersiz PIN veya şube' });
+  }
+
+  // Session'ı güncelle
+  (req.session as any).branchId = branchId;
+  (req.session as any).user = adminUser;
+  res.json({ user: adminUser, branchId });
+});
+
 // Menu routes
 app.get('/api/menu', (req, res) => {
-  const menu = readMenu();
+  const branchId = validateBranchId(getBranchId(req));
+  const menu = readMenuByBranch(branchId);
   res.json(menu);
 });
 
@@ -261,6 +365,7 @@ app.post('/api/admin/menu', (req, res) => {
     return res.status(403).json({ error: 'Unauthorized' });
   }
 
+  const branchId = validateBranchId(getBranchId(req));
   const { name, price, category, menuCategory, items, extras } = req.body;
 
   if (!name || !price || !category) {
@@ -269,13 +374,14 @@ app.post('/api/admin/menu', (req, res) => {
       .json({ error: 'Ürün adı, fiyat ve kategori gerekli' });
   }
 
-  const menu = readMenu();
+  const menu = readMenuByBranch(branchId);
   const newItem: any = {
     id: Date.now().toString(),
     name,
     price: parseFloat(price),
     category,
     menuCategory: menuCategory || category,
+    branchId: branchId, // Zorunlu
   };
 
   // Kampanya menüsü ise items ekle
@@ -289,9 +395,9 @@ app.post('/api/admin/menu', (req, res) => {
   }
 
   menu.push(newItem);
-  writeMenu(menu);
+  writeMenuByBranch(branchId, menu);
 
-  broadcast({ type: 'MENU_UPDATED', menu });
+  broadcastToBranch(branchId, { type: 'MENU_UPDATED', menu });
   res.json(newItem);
 });
 
@@ -301,10 +407,11 @@ app.put('/api/admin/menu/:id', (req, res) => {
     return res.status(403).json({ error: 'Unauthorized' });
   }
 
+  const branchId = validateBranchId(getBranchId(req));
   const { id } = req.params;
   const { name, price, category, menuCategory, items, extras } = req.body;
 
-  const menu = readMenu();
+  const menu = readMenuByBranch(branchId);
   const index = menu.findIndex((item) => item.id === id);
 
   if (index === -1) {
@@ -326,11 +433,12 @@ app.put('/api/admin/menu/:id', (req, res) => {
     ...(extras !== undefined
       ? { extras: extras.trim() || undefined }
       : {}),
+    branchId: branchId, // Zorunlu
   };
 
-  writeMenu(menu);
+  writeMenuByBranch(branchId, menu);
 
-  broadcast({ type: 'MENU_UPDATED', menu });
+  broadcastToBranch(branchId, { type: 'MENU_UPDATED', menu });
   res.json(menu[index]);
 });
 
@@ -340,17 +448,18 @@ app.delete('/api/admin/menu/:id', (req, res) => {
     return res.status(403).json({ error: 'Unauthorized' });
   }
 
+  const branchId = validateBranchId(getBranchId(req));
   const { id } = req.params;
-  const menu = readMenu();
+  const menu = readMenuByBranch(branchId);
   const filteredMenu = menu.filter((item) => item.id !== id);
 
   if (filteredMenu.length === menu.length) {
     return res.status(404).json({ error: 'Ürün bulunamadı' });
   }
 
-  writeMenu(filteredMenu);
+  writeMenuByBranch(branchId, filteredMenu);
 
-  broadcast({ type: 'MENU_UPDATED', menu: filteredMenu });
+  broadcastToBranch(branchId, { type: 'MENU_UPDATED', menu: filteredMenu });
   res.json({ success: true });
 });
 
@@ -361,7 +470,8 @@ app.get('/api/orders', (req, res) => {
     return res.status(401).json({ error: 'Not authenticated' });
   }
 
-  const orders = readOrders();
+  const branchId = validateBranchId(getBranchId(req));
+  const orders = readOrdersByBranch(branchId);
 
   // Kitchen ve Bar sadece kendi kategorilerini görür (READY ve SERVED olmayanlar)
   if (user.role === 'kitchen' || user.role === 'bar') {
@@ -402,6 +512,7 @@ app.post('/api/orders', (req, res) => {
     return res.status(403).json({ error: 'Unauthorized' });
   }
 
+  const branchId = validateBranchId(getBranchId(req));
   const { items, tableNumber } = req.body;
   if (!items || items.length === 0) {
     return res
@@ -409,7 +520,7 @@ app.post('/api/orders', (req, res) => {
       .json({ error: 'Sipariş öğeleri gerekli' });
   }
 
-  const menu = readMenu();
+  const menu = readMenuByBranch(branchId);
 
   const orderItems: OrderItem[] = [];
 
@@ -432,6 +543,7 @@ app.post('/api/orders', (req, res) => {
             price: fullMenuItem.price,
             category: campaignItem.category as 'kitchen' | 'bar',
             status: 'PENDING' as OrderStatus,
+            branchId: branchId,
           });
         }
       });
@@ -460,6 +572,7 @@ app.post('/api/orders', (req, res) => {
         price: menuItem.price,
         category,
         status: 'PENDING' as OrderStatus,
+        branchId: branchId,
       });
     }
   });
@@ -478,13 +591,14 @@ app.post('/api/orders', (req, res) => {
     createdAt: new Date().toISOString(),
     totalAmount,
     isPaid: false,
+    branchId: branchId,
   };
 
-  const orders = readOrders();
+  const orders = readOrdersByBranch(branchId);
   orders.push(order);
-  writeOrders(orders);
+  writeOrdersByBranch(branchId, orders);
 
-  broadcast({ type: 'NEW_ORDER', order });
+  broadcastToBranch(branchId, { type: 'NEW_ORDER', order });
 
   res.json(order);
 });
@@ -495,10 +609,11 @@ app.patch('/api/orders/:orderId/items/:itemId', (req, res) => {
     return res.status(401).json({ error: 'Not authenticated' });
   }
 
+  const branchId = validateBranchId(getBranchId(req));
   const { orderId, itemId } = req.params;
   const { status, cancelledReason } = req.body;
 
-  const orders = readOrders();
+  const orders = readOrdersByBranch(branchId);
   const order = orders.find((o) => o.id === orderId);
 
   if (!order) {
@@ -535,9 +650,9 @@ app.patch('/api/orders/:orderId/items/:itemId', (req, res) => {
     item.cancelledReason = cancelledReason;
   }
 
-  writeOrders(orders);
+  writeOrdersByBranch(branchId, orders);
 
-  broadcast({ type: 'ORDER_UPDATED', order });
+  broadcastToBranch(branchId, { type: 'ORDER_UPDATED', order });
 
   res.json(order);
 });
@@ -558,7 +673,8 @@ app.patch('/api/orders/:orderId/move-table', (req, res) => {
       .json({ error: 'Geçerli bir masa numarası gerekli' });
   }
 
-  const orders = readOrders();
+  const branchId = validateBranchId(getBranchId(req));
+  const orders = readOrdersByBranch(branchId);
   const order = orders.find((o) => o.id === orderId);
 
   if (!order) {
@@ -574,9 +690,9 @@ app.patch('/api/orders/:orderId/move-table', (req, res) => {
   }
 
   order.tableNumber = newTableNumber;
-  writeOrders(orders);
+  writeOrdersByBranch(branchId, orders);
 
-  broadcast({ type: 'ORDER_UPDATED', order });
+  broadcastToBranch(branchId, { type: 'ORDER_UPDATED', order });
 
   res.json(order);
 });
@@ -588,6 +704,7 @@ app.post('/api/cashier/pay', (req, res) => {
     return res.status(403).json({ error: 'Unauthorized' });
   }
 
+  const branchId = validateBranchId(getBranchId(req));
   const { tableNumber, paymentMethod, discount } = req.body;
 
   if (!tableNumber || !paymentMethod) {
@@ -596,7 +713,7 @@ app.post('/api/cashier/pay', (req, res) => {
       .json({ error: 'Masa numarası ve ödeme yöntemi gerekli' });
   }
 
-  const orders = readOrders();
+  const orders = readOrdersByBranch(branchId);
   const tableOrders = orders.filter(
     (order) => order.tableNumber === tableNumber && !order.isPaid
   );
@@ -629,9 +746,9 @@ app.post('/api/cashier/pay', (req, res) => {
     order.isPaid = true;
   });
 
-  writeOrders(orders);
+  writeOrdersByBranch(branchId, orders);
 
-  broadcast({
+  broadcastToBranch(branchId, {
     type: 'PAYMENT_COMPLETED',
     tableNumber,
     orders: tableOrders,
@@ -656,7 +773,8 @@ app.get('/api/cashier/table/:tableNumber', (req, res) => {
       .json({ error: 'Geçerli bir masa numarası gerekli' });
   }
 
-  const orders = readOrders();
+  const branchId = validateBranchId(getBranchId(req));
+  const orders = readOrdersByBranch(branchId);
   const tableOrders = orders.filter(
     (order) => order.tableNumber === tableNum && !order.isPaid
   );
@@ -683,7 +801,8 @@ app.get('/api/orders/completed', (req, res) => {
     return res.status(401).json({ error: 'Not authenticated' });
   }
 
-  const completedOrders = readCompletedOrders();
+  const branchId = validateBranchId(getBranchId(req));
+  const completedOrders = readCompletedOrdersByBranch(branchId);
 
   if (user.role === 'kitchen' || user.role === 'bar') {
     const filteredOrders = completedOrders
@@ -708,8 +827,9 @@ app.post('/api/orders/move-to-completed', (req, res) => {
     return res.status(403).json({ error: 'Unauthorized' });
   }
 
-  const orders = readOrders();
-  const completedOrders = readCompletedOrders();
+  const branchId = validateBranchId(getBranchId(req));
+  const orders = readOrdersByBranch(branchId);
+  const completedOrders = readCompletedOrdersByBranch(branchId);
   const now = new Date().toISOString();
 
   let movedCount = 0;
@@ -737,11 +857,11 @@ app.post('/api/orders/move-to-completed', (req, res) => {
 
   const remainingOrders = orders.filter((order) => order.items.length > 0);
 
-  writeOrders(remainingOrders);
-  writeCompletedOrders(completedOrders);
+  writeOrdersByBranch(branchId, remainingOrders);
+  writeCompletedOrdersByBranch(branchId, completedOrders);
 
   if (movedCount > 0) {
-    broadcast({
+    broadcastToBranch(branchId, {
       type: 'ORDERS_MOVED_TO_COMPLETED',
       count: movedCount,
     });
@@ -752,7 +872,10 @@ app.post('/api/orders/move-to-completed', (req, res) => {
 
 // Gün sonu sıfırlama fonksiyonu
 function resetDay() {
-  writeCompletedOrders([]);
+  // For branch-based, this should be called per branch, but for now, use current branch context.
+  // If you want to reset for all branches, iterate over all branch IDs.
+  // Here, we'll just call for 'default' branch for backward compatibility.
+  writeCompletedOrdersByBranch('default', []);
   broadcast({ type: 'DAY_RESET' });
   console.log('Gün sonu otomatik sıfırlandı:', new Date().toISOString());
 }
@@ -778,7 +901,9 @@ app.post('/api/admin/reset-day', (req, res) => {
     return res.status(403).json({ error: 'Unauthorized' });
   }
 
-  resetDay();
+  const branchId = validateBranchId(getBranchId(req));
+  writeCompletedOrdersByBranch(branchId, []);
+  broadcastToBranch(branchId, { type: 'DAY_RESET' });
   res.json({
     success: true,
     message:
@@ -793,8 +918,9 @@ app.get('/api/reports/live', (req, res) => {
     return res.status(403).json({ error: 'Unauthorized' });
   }
 
-  const orders = readOrders();
-  const completedOrders = readCompletedOrders();
+  const branchId = validateBranchId(getBranchId(req));
+  const orders = readOrdersByBranch(branchId);
+  const completedOrders = readCompletedOrdersByBranch(branchId);
   const allOrders = [...orders, ...completedOrders];
 
   const today = new Date().toISOString().split('T')[0];
@@ -844,8 +970,9 @@ app.get('/api/reports/:period', (req, res) => {
     });
   }
 
-  const orders = readOrders();
-  const completedOrders = readCompletedOrders();
+  const branchId = validateBranchId(getBranchId(req));
+  const orders = readOrdersByBranch(branchId);
+  const completedOrders = readCompletedOrdersByBranch(branchId);
   const allOrders = [...orders, ...completedOrders];
 
   const now = new Date();
@@ -947,8 +1074,9 @@ app.post('/api/reports/clear-range', (req, res) => {
 
   const todayStr = new Date().toISOString().split('T')[0];
 
-  let orders = readOrders();
-  let completedOrders = readCompletedOrders();
+  const branchId = validateBranchId(getBranchId(req));
+  let orders = readOrdersByBranch(branchId);
+  let completedOrders = readCompletedOrdersByBranch(branchId);
 
   const isInRangeAndNotToday = (createdAt: string) => {
     const d = new Date(createdAt);
@@ -964,8 +1092,8 @@ app.post('/api/reports/clear-range', (req, res) => {
     (o) => !isInRangeAndNotToday(o.createdAt)
   );
 
-  writeOrders(orders);
-  writeCompletedOrders(completedOrders);
+  writeOrdersByBranch(branchId, orders);
+  writeCompletedOrdersByBranch(branchId, completedOrders);
 
   res.json({
     success: true,
@@ -981,8 +1109,9 @@ app.get('/api/reports/daily', (req, res) => {
     return res.status(403).json({ error: 'Unauthorized' });
   }
 
-  const orders = readOrders();
-  const completedOrders = readCompletedOrders();
+  const branchId = validateBranchId(getBranchId(req));
+  const orders = readOrdersByBranch(branchId);
+  const completedOrders = readCompletedOrdersByBranch(branchId);
   const allOrders = [...orders, ...completedOrders];
   const today = new Date().toISOString().split('T')[0];
 

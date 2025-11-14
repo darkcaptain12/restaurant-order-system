@@ -4,133 +4,152 @@
     "name": "Hamburger",
     "price": 150,
     "category": "kitchen",
-    "menuCategory": "food"
+    "menuCategory": "food",
+    "branchId": "default"
   },
   {
     "id": "2",
     "name": "Pizza Margherita",
     "price": 200,
     "category": "kitchen",
-    "menuCategory": "food"
+    "menuCategory": "food",
+    "branchId": "default"
   },
   {
     "id": "3",
     "name": "Tavuk Şiş",
     "price": 180,
     "category": "kitchen",
-    "menuCategory": "food"
+    "menuCategory": "food",
+    "branchId": "default"
   },
   {
     "id": "4",
     "name": "Lahmacun",
     "price": 80,
     "category": "kitchen",
-    "menuCategory": "food"
+    "menuCategory": "food",
+    "branchId": "default"
   },
   {
     "id": "5",
     "name": "Döner",
     "price": 120,
     "category": "kitchen",
-    "menuCategory": "food"
+    "menuCategory": "food",
+    "branchId": "default"
   },
   {
     "id": "6",
     "name": "Köfte",
     "price": 160,
     "category": "kitchen",
-    "menuCategory": "food"
+    "menuCategory": "food",
+    "branchId": "default"
   },
   {
     "id": "7",
     "name": "Balık",
     "price": 250,
     "category": "kitchen",
-    "menuCategory": "food"
+    "menuCategory": "food",
+    "branchId": "default"
   },
   {
     "id": "8",
     "name": "Salata",
     "price": 60,
     "category": "kitchen",
-    "menuCategory": "food"
+    "menuCategory": "food",
+    "branchId": "default"
   },
   {
     "id": "9",
     "name": "Çorba",
     "price": 50,
     "category": "kitchen",
-    "menuCategory": "food"
+    "menuCategory": "food",
+    "branchId": "default"
   },
   {
     "id": "10",
     "name": "Makarna",
     "price": 100,
     "category": "kitchen",
-    "menuCategory": "food"
+    "menuCategory": "food",
+    "branchId": "default"
   },
   {
     "id": "11",
     "name": "Bira",
     "price": 50,
     "category": "bar",
-    "menuCategory": "drink"
+    "menuCategory": "drink",
+    "branchId": "default"
   },
   {
     "id": "12",
     "name": "Şarap",
     "price": 300,
     "category": "bar",
-    "menuCategory": "drink"
+    "menuCategory": "drink",
+    "branchId": "default"
   },
   {
     "id": "13",
     "name": "Kokteyl",
     "price": 150,
     "category": "bar",
-    "menuCategory": "drink"
+    "menuCategory": "drink",
+    "branchId": "default"
   },
   {
     "id": "14",
     "name": "Meyve Suyu",
     "price": 40,
     "category": "bar",
-    "menuCategory": "drink"
+    "menuCategory": "drink",
+    "branchId": "default"
   },
   {
     "id": "15",
     "name": "Kahve",
     "price": 30,
     "category": "bar",
-    "menuCategory": "drink"
+    "menuCategory": "drink",
+    "branchId": "default"
   },
   {
     "id": "16",
     "name": "Çay",
     "price": 20,
     "category": "bar",
-    "menuCategory": "drink"
+    "menuCategory": "drink",
+    "branchId": "default"
   },
   {
     "id": "17",
     "name": "Kola",
     "price": 35,
     "category": "bar",
-    "menuCategory": "drink"
+    "menuCategory": "drink",
+    "branchId": "default"
   },
   {
     "id": "18",
     "name": "Su",
     "price": 10,
     "category": "bar",
-    "menuCategory": "drink"
+    "menuCategory": "drink",
+    "branchId": "default"
   },
   {
     "id": "19",
     "name": "Baklava",
     "price": 80,
     "category": "kitchen",
-    "menuCategory": "dessert"
+    "menuCategory": "dessert",
+    "branchId": "default"
   },
   {
     "id": "20",
@@ -138,14 +157,16 @@
     "price": 120,
     "category": "kitchen",
     "menuCategory": "dessert",
-    "extras": "Updated description for testing"
+    "extras": "Updated description for testing",
+    "branchId": "default"
   },
   {
     "id": "21",
     "name": "Tiramisu",
     "price": 90,
     "category": "kitchen",
-    "menuCategory": "dessert"
+    "menuCategory": "dessert",
+    "branchId": "default"
   },
   {
     "id": "22",
@@ -153,21 +174,24 @@
     "price": 100,
     "category": "bar",
     "menuCategory": "dessert",
-    "extras": "Updated description for testing"
+    "extras": "Updated description for testing",
+    "branchId": "default"
   },
   {
     "id": "23",
     "name": "Cheesecake",
     "price": 100,
     "category": "bar",
-    "menuCategory": "dessert"
+    "menuCategory": "dessert",
+    "branchId": "default"
   },
   {
     "id": "24",
     "name": "Brownie",
     "price": 70,
     "category": "bar",
-    "menuCategory": "dessert"
+    "menuCategory": "dessert",
+    "branchId": "default"
   },
   {
     "id": "25",
@@ -191,7 +215,8 @@
         "name": "Baklava",
         "category": "kitchen"
       }
-    ]
+    ],
+    "branchId": "default"
   },
   {
     "id": "26",
@@ -215,7 +240,8 @@
         "name": "Dondurma",
         "category": "bar"
       }
-    ]
+    ],
+    "branchId": "default"
   },
   {
     "id": "27",
@@ -234,7 +260,8 @@
         "name": "Meyve Suyu",
         "category": "bar"
       }
-    ]
+    ],
+    "branchId": "default"
   },
   {
     "id": "1762985970382",
@@ -253,14 +280,16 @@
         "name": "Kahve",
         "category": "bar"
       }
-    ]
+    ],
+    "branchId": "default"
   },
   {
     "id": "1762988423613",
     "name": "Test Kitchen Item",
     "price": 100,
     "category": "kitchen",
-    "menuCategory": "food"
+    "menuCategory": "food",
+    "branchId": "default"
   },
   {
     "id": "1763050216897",
@@ -268,13 +297,40 @@
     "price": 123,
     "category": "kitchen",
     "menuCategory": "food",
-    "extras": "Test item for kitchen category"
+    "extras": "Test item for kitchen category",
+    "branchId": "default"
   },
   {
     "id": "1763050353708",
     "name": "Campaign Test Item",
     "price": 250,
     "category": "campaign",
-    "menuCategory": "campaign"
+    "menuCategory": "campaign",
+    "branchId": "default"
+  },
+  {
+    "id": "1763150881414",
+    "name": "a",
+    "price": 150,
+    "category": "kitchen",
+    "menuCategory": "food",
+    "branchId": "default"
+  },
+  {
+    "id": "1763150894065",
+    "name": "Pizza",
+    "price": 150,
+    "category": "kitchen",
+    "menuCategory": "food",
+    "extras": "asd",
+    "branchId": "default"
+  },
+  {
+    "id": "1763152783406",
+    "name": "aa",
+    "price": 150,
+    "category": "kitchen",
+    "menuCategory": "food",
+    "branchId": "1"
   }
 ]

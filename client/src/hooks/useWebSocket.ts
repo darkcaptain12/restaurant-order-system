@@ -15,7 +15,12 @@ export function useWebSocket(onMessage: (data: any) => void) {
   useEffect(() => {
     const connect = () => {
       try {
-        const ws = new WebSocket(getWebSocketUrl());
+        // localStorage'dan branchId al
+        const branchId = localStorage.getItem('selectedBranch') || 'default';
+        const wsUrl = getWebSocketUrl();
+        // WebSocket URL'ine branchId query parametresi ekle
+        const separator = wsUrl.includes('?') ? '&' : '?';
+        const ws = new WebSocket(`${wsUrl}${separator}branchId=${branchId}`);
         wsRef.current = ws;
 
         ws.onopen = () => {

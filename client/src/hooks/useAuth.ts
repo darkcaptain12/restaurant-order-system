@@ -31,17 +31,26 @@ export function useAuth() {
     }
   };
 
-  const login = async (pin: string, _username: string | null, _role: string) => {
+  const login = async (pin: string, branchId: string, _deviceId: string) => {
     const res = await fetch(getApiUrl('/api/auth/login'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
-      body: JSON.stringify({ pin })
+      body: JSON.stringify({ 
+        pin,
+        branchId
+      })
     });
 
     if (res.ok) {
       const data = await res.json();
+
+      // save logged-in user
       setUser(data.user);
+
+      // store branch ID for persistent usage
+      localStorage.setItem('selectedBranch', branchId);
+
       return { success: true, user: data.user };
     } else {
       const error = await res.json();
@@ -65,4 +74,3 @@ export function useAuth() {
 
   return { user, loading, login, logout, checkAuth };
 }
-
