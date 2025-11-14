@@ -1,0 +1,446 @@
+[
+  {
+    "id": "0ca4b756-c548-454a-b610-642881c5ec97",
+    "waiterId": "waiter1",
+    "waiterName": "waiter1",
+    "items": [
+      {
+        "id": "61e5bb91-427a-4c8c-b8e9-f7f95350112c",
+        "menuItemId": "2",
+        "menuItemName": "Pizza Margherita",
+        "quantity": 1,
+        "price": 200,
+        "category": "kitchen",
+        "status": "CANCELLED",
+        "cancelledReason": "jhbj"
+      },
+      {
+        "id": "1c96e6a3-25e3-4918-b400-4d732361082a",
+        "menuItemId": "6",
+        "menuItemName": "Bira",
+        "quantity": 1,
+        "price": 50,
+        "category": "bar",
+        "status": "SERVED"
+      },
+      {
+        "id": "f985ff31-a0d7-44ac-bfa9-adb87fa45364",
+        "menuItemId": "5",
+        "menuItemName": "Döner",
+        "quantity": 1,
+        "price": 120,
+        "category": "kitchen",
+        "status": "CANCELLED",
+        "cancelledReason": "vj"
+      }
+    ],
+    "createdAt": "2025-11-12T21:30:21.480Z",
+    "totalAmount": 370
+  },
+  {
+    "id": "42920c59-6432-4bc9-bc69-face6a232e43",
+    "waiterId": "waiter_1762985143662",
+    "waiterName": "1",
+    "tableNumber": 1,
+    "items": [
+      {
+        "id": "f43c43d8-8070-462f-bfcd-58382bfaf3a6",
+        "menuItemId": "2",
+        "menuItemName": "Kampanya Menü 2 - Pizza Margherita",
+        "quantity": 1,
+        "price": 200,
+        "category": "kitchen",
+        "status": "READY"
+      },
+      {
+        "id": "1583d321-405f-4e46-a12a-c8d80c2bd24f",
+        "menuItemId": "12",
+        "menuItemName": "Kampanya Menü 2 - Şarap",
+        "quantity": 1,
+        "price": 300,
+        "category": "bar",
+        "status": "READY"
+      },
+      {
+        "id": "6d0e570a-5c95-4fdc-b07e-b3bbfa3e9a3e",
+        "menuItemId": "22",
+        "menuItemName": "Kampanya Menü 2 - Dondurma",
+        "quantity": 1,
+        "price": 40,
+        "category": "bar",
+        "status": "READY"
+      }
+    ],
+    "createdAt": "2025-11-12T22:12:21.146Z",
+    "totalAmount": 540,
+    "isPaid": true,
+    "payment": {
+      "method": "cash",
+      "amount": 740,
+      "discount": 0,
+      "finalAmount": 740,
+      "paidAt": "2025-11-12T22:12:42.674Z",
+      "cashierId": "cashier_1762985151906",
+      "cashierName": "1"
+    }
+  },
+  {
+    "id": "684bbec4-d818-40e7-86c9-cff801d66f12",
+    "waiterId": "waiter_1762985147827",
+    "waiterName": "2",
+    "tableNumber": 1,
+    "items": [
+      {
+        "id": "a36358bc-3741-4ed4-b3b2-d3bce81a6007",
+        "menuItemId": "2",
+        "menuItemName": "Pizza Margherita",
+        "quantity": 1,
+        "price": 200,
+        "category": "kitchen",
+        "status": "READY"
+      }
+    ],
+    "createdAt": "2025-11-12T22:12:35.366Z",
+    "totalAmount": 200,
+    "isPaid": true,
+    "payment": {
+      "method": "cash",
+      "amount": 740,
+      "discount": 0,
+      "finalAmount": 740,
+      "paidAt": "2025-11-12T22:12:42.674Z",
+      "cashierId": "cashier_1762985151906",
+      "cashierName": "1"
+    }
+  },
+  {
+    "id": "4a3c60a0-048e-4524-99a0-05c1583f62ca",
+    "waiterId": "waiter_1762985143662",
+    "waiterName": "1",
+    "tableNumber": 1,
+    "items": [
+      {
+        "id": "5e30ee4b-165c-4f03-b4e3-b7dd675f8af7",
+        "menuItemId": "1",
+        "menuItemName": "Hamburger",
+        "quantity": 1,
+        "price": 150,
+        "category": "kitchen",
+        "status": "READY"
+      }
+    ],
+    "createdAt": "2025-11-12T22:49:35.864Z",
+    "totalAmount": 150,
+    "isPaid": true,
+    "payment": {
+      "method": "cash",
+      "amount": 800,
+      "discount": 0,
+      "finalAmount": 800,
+      "paidAt": "2025-11-13T16:05:20.911Z",
+      "cashierId": "cashier_1762985151906",
+      "cashierName": "1"
+    }
+  },
+  {
+    "id": "523d2586-7f14-4a36-a358-12ee538fe21f",
+    "waiterId": "waiter_1762985143662",
+    "waiterName": "1",
+    "tableNumber": 1,
+    "items": [
+      {
+        "id": "aa3b8dc3-f666-4e60-bc4a-541a003f2028",
+        "menuItemId": "1",
+        "menuItemName": "Hamburger",
+        "quantity": 1,
+        "price": 150,
+        "category": "kitchen",
+        "status": "READY"
+      }
+    ],
+    "createdAt": "2025-11-12T22:49:50.982Z",
+    "totalAmount": 150,
+    "isPaid": true,
+    "payment": {
+      "method": "cash",
+      "amount": 800,
+      "discount": 0,
+      "finalAmount": 800,
+      "paidAt": "2025-11-13T16:05:20.911Z",
+      "cashierId": "cashier_1762985151906",
+      "cashierName": "1"
+    }
+  },
+  {
+    "id": "cf977afc-1473-441d-b659-a8d68502f314",
+    "waiterId": "waiter_1762987749608",
+    "waiterName": "testuser",
+    "tableNumber": 2,
+    "items": [
+      {
+        "id": "08644e65-0345-4b99-8383-23ce2d470cbe",
+        "menuItemId": "1",
+        "menuItemName": "Hamburger",
+        "quantity": 1,
+        "price": 150,
+        "category": "kitchen",
+        "status": "IN_PROGRESS"
+      },
+      {
+        "id": "bb0a5c17-40a7-4282-95b9-3c937e407a39",
+        "menuItemId": "10",
+        "menuItemName": "Makarna",
+        "quantity": 1,
+        "price": 100,
+        "category": "kitchen",
+        "status": "IN_PROGRESS"
+      }
+    ],
+    "createdAt": "2025-11-12T23:00:15.294Z",
+    "totalAmount": 250,
+    "isPaid": true,
+    "payment": {
+      "method": "card",
+      "amount": 550,
+      "discount": 0,
+      "finalAmount": 550,
+      "paidAt": "2025-11-13T16:05:15.879Z",
+      "cashierId": "cashier_1762985151906",
+      "cashierName": "1"
+    }
+  },
+  {
+    "id": "5ac6c867-9c17-4760-a4c3-9d5ffae80569",
+    "waiterId": "waiter_1762987749608",
+    "waiterName": "testuser",
+    "tableNumber": 2,
+    "items": [
+      {
+        "id": "dc487f30-475a-4fcb-ae76-51ceaaa72997",
+        "menuItemId": "1",
+        "menuItemName": "Hamburger",
+        "quantity": 1,
+        "price": 150,
+        "category": "kitchen",
+        "status": "PENDING"
+      }
+    ],
+    "createdAt": "2025-11-12T23:00:17.671Z",
+    "totalAmount": 150,
+    "isPaid": true,
+    "payment": {
+      "method": "card",
+      "amount": 550,
+      "discount": 0,
+      "finalAmount": 550,
+      "paidAt": "2025-11-13T16:05:15.879Z",
+      "cashierId": "cashier_1762985151906",
+      "cashierName": "1"
+    }
+  },
+  {
+    "id": "8a7c2596-c3d6-4c4d-97ce-120301280ba7",
+    "waiterId": "waiter_1762987749608",
+    "waiterName": "testuser",
+    "tableNumber": 1,
+    "items": [
+      {
+        "id": "d82fb45b-4567-4dc4-a2b7-d8a082e90696",
+        "menuItemId": "1",
+        "menuItemName": "Hamburger",
+        "quantity": 1,
+        "price": 150,
+        "category": "kitchen",
+        "status": "PENDING"
+      },
+      {
+        "id": "bdacdcd8-26fd-422d-90d9-f8117af3c155",
+        "menuItemId": "2",
+        "menuItemName": "Pizza Margherita",
+        "quantity": 1,
+        "price": 200,
+        "category": "kitchen",
+        "status": "PENDING"
+      }
+    ],
+    "createdAt": "2025-11-12T23:00:26.715Z",
+    "totalAmount": 350,
+    "isPaid": true,
+    "payment": {
+      "method": "cash",
+      "amount": 800,
+      "discount": 0,
+      "finalAmount": 800,
+      "paidAt": "2025-11-13T16:05:20.911Z",
+      "cashierId": "cashier_1762985151906",
+      "cashierName": "1"
+    }
+  },
+  {
+    "id": "c93d34fe-501b-4756-a67c-23595c6c6cfb",
+    "waiterId": "waiter_1762985143662",
+    "waiterName": "1",
+    "tableNumber": 1,
+    "items": [
+      {
+        "id": "0fde7c38-6547-4ad5-9818-13d8625a98bd",
+        "menuItemId": "1",
+        "menuItemName": "Hamburger",
+        "quantity": 1,
+        "price": 150,
+        "category": "kitchen",
+        "status": "PENDING"
+      }
+    ],
+    "createdAt": "2025-11-12T23:01:08.829Z",
+    "totalAmount": 150,
+    "isPaid": true,
+    "payment": {
+      "method": "cash",
+      "amount": 800,
+      "discount": 0,
+      "finalAmount": 800,
+      "paidAt": "2025-11-13T16:05:20.911Z",
+      "cashierId": "cashier_1762985151906",
+      "cashierName": "1"
+    }
+  },
+  {
+    "id": "80b26acc-88e3-43ca-88ce-b2a116d82543",
+    "waiterId": "waiter_1762987749608",
+    "waiterName": "testuser",
+    "tableNumber": 2,
+    "items": [
+      {
+        "id": "e74e5f38-de07-4d5c-ae80-957a1896c39a",
+        "menuItemId": "1",
+        "menuItemName": "Hamburger",
+        "quantity": 1,
+        "price": 150,
+        "category": "kitchen",
+        "status": "PENDING"
+      }
+    ],
+    "createdAt": "2025-11-12T23:01:10.062Z",
+    "totalAmount": 150,
+    "isPaid": true,
+    "payment": {
+      "method": "card",
+      "amount": 550,
+      "discount": 0,
+      "finalAmount": 550,
+      "paidAt": "2025-11-13T16:05:15.879Z",
+      "cashierId": "cashier_1762985151906",
+      "cashierName": "1"
+    }
+  },
+  {
+    "id": "3b98a679-35e4-457f-87d8-547f45673765",
+    "waiterId": "waiter_1762987749608",
+    "waiterName": "testuser",
+    "tableNumber": 1,
+    "items": [
+      {
+        "id": "e35999a4-3120-4b99-9096-3a48114a833e",
+        "menuItemId": "1",
+        "menuItemName": "Hamburger",
+        "quantity": 1,
+        "price": 150,
+        "category": "kitchen",
+        "status": "PENDING"
+      }
+    ],
+    "createdAt": "2025-11-13T16:10:10.562Z",
+    "totalAmount": 150,
+    "isPaid": false
+  },
+  {
+    "id": "64ac65da-0377-43a1-863e-d5faead543b4",
+    "waiterId": "waiter_1762987749608",
+    "waiterName": "testuser",
+    "tableNumber": 1,
+    "items": [
+      {
+        "id": "e9831098-eed1-41bc-a8e3-907cb57eb483",
+        "menuItemId": "1",
+        "menuItemName": "Hamburger",
+        "quantity": 1,
+        "price": 150,
+        "category": "kitchen",
+        "status": "PENDING"
+      }
+    ],
+    "createdAt": "2025-11-13T16:10:36.694Z",
+    "totalAmount": 150,
+    "isPaid": false
+  },
+  {
+    "id": "a1a9e654-1c77-48de-8f21-f68e69ad6aa8",
+    "waiterId": "waiter_1762987749608",
+    "waiterName": "testuser",
+    "tableNumber": 1,
+    "items": [
+      {
+        "id": "f0010c8f-e337-4837-9fa1-b42df458d421",
+        "menuItemId": "1",
+        "menuItemName": "Hamburger",
+        "quantity": 1,
+        "price": 150,
+        "category": "kitchen",
+        "status": "PENDING"
+      },
+      {
+        "id": "c8428b41-22e6-4c96-9b28-650e4484a775",
+        "menuItemId": "10",
+        "menuItemName": "Makarna",
+        "quantity": 1,
+        "price": 100,
+        "category": "kitchen",
+        "status": "PENDING"
+      }
+    ],
+    "createdAt": "2025-11-13T16:10:44.898Z",
+    "totalAmount": 250,
+    "isPaid": false
+  },
+  {
+    "id": "7870e31a-da63-44f2-b583-82a5a105c366",
+    "waiterId": "waiter_1762985143662",
+    "waiterName": "1",
+    "tableNumber": 2,
+    "items": [
+      {
+        "id": "6a0aea3b-4ecb-404a-9ecc-f4df409608e3",
+        "menuItemId": "1",
+        "menuItemName": "Hamburger",
+        "quantity": 1,
+        "price": 150,
+        "category": "kitchen",
+        "status": "PENDING"
+      }
+    ],
+    "createdAt": "2025-11-13T16:11:02.400Z",
+    "totalAmount": 150,
+    "isPaid": false
+  },
+  {
+    "id": "6df59bc2-7e51-425f-9709-857d0ecfb3b3",
+    "waiterId": "waiter_1762987749608",
+    "waiterName": "testuser",
+    "tableNumber": 1,
+    "items": [
+      {
+        "id": "d82dc2c2-a991-4264-a213-47f8e016b7ec",
+        "menuItemId": "1",
+        "menuItemName": "Hamburger",
+        "quantity": 1,
+        "price": 150,
+        "category": "kitchen",
+        "status": "PENDING"
+      }
+    ],
+    "createdAt": "2025-11-13T16:11:48.923Z",
+    "totalAmount": 150,
+    "isPaid": false
+  }
+]

@@ -1,0 +1,16 @@
+node_modules
+dist
+build
+.git
+.gitignore
+.env
+.env.local
+.env.production
+.env.development
+*.log
+.DS_Store
+testsprite_tests
+README.md
+DEPLOYMENT.md
+PRD.md
+

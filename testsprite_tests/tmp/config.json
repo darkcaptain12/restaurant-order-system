@@ -1,0 +1,18 @@
+{
+  "status": "commited",
+  "type": "frontend",
+  "scope": "codebase",
+  "localEndpoint": "http://localhost:5173",
+  "loginUser": "1",
+  "loginPassword": "1",
+  "executionArgs": {
+    "projectName": "restaurant-order-system",
+    "projectPath": "/Users/emir/restaurant-order-system",
+    "testIds": [],
+    "additionalInstruction": "",
+    "envs": {
+      "API_KEY": "sk-user-AI3dsXsZMTV1sAVvB9G8Oie64xkgv5UCvsratWHXHIwUi46JFWbZBi_TDE2sGKHGL48WZny_lKEXr8qBcYfcIeoLodgBNgLnTNHIvFCSkoHyerR5jqlUTKSq-Z_BihO8TOo"
+    }
+  },
+  "proxy": "http://6efa7fef-26a4-40c4-af6e-e5cd9e9262bc:1yhBEyI6jq0KUfmvXvBNknaj6aRwUq5U@tun.testsprite.com:8080"
+}

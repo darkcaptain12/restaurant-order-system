@@ -1,0 +1,138 @@
+{
+  "tech_stack": [
+    "TypeScript",
+    "React",
+    "Vite",
+    "Express",
+    "WebSocket",
+    "Tailwind CSS",
+    "React Router",
+    "JSON"
+  ],
+  "features": [
+    {
+      "name": "Authentication System",
+      "description": "PIN-based authentication system with role-based access control. Supports login, logout, and session management.",
+      "files": [
+        "client/src/pages/Login.tsx",
+        "client/src/hooks/useAuth.ts",
+        "client/src/components/ProtectedRoute.tsx",
+        "server/src/auth.ts"
+      ]
+    },
+    {
+      "name": "WebSocket Real-time Updates",
+      "description": "Real-time communication system using WebSocket for live order updates, menu changes, and payment notifications.",
+      "files": [
+        "client/src/hooks/useWebSocket.ts",
+        "server/src/index.ts"
+      ]
+    },
+    {
+      "name": "Waiter Dashboard",
+      "description": "Dashboard for waiters to manage tables, create orders, view menu, and track order status. Features 20-table layout, cart management, and order tracking.",
+      "files": [
+        "client/src/pages/WaiterDashboard.tsx"
+      ]
+    },
+    {
+      "name": "Kitchen Dashboard",
+      "description": "Dashboard for kitchen staff to view and manage kitchen category orders. Supports order status updates (PENDING, IN_PROGRESS, READY), cancellation with reasons, and completed orders history.",
+      "files": [
+        "client/src/pages/KitchenDashboard.tsx"
+      ]
+    },
+    {
+      "name": "Bar Dashboard",
+      "description": "Dashboard for bar staff to view and manage bar category orders. Similar functionality to kitchen dashboard but filtered for bar items.",
+      "files": [
+        "client/src/pages/BarDashboard.tsx"
+      ]
+    },
+    {
+      "name": "Admin Dashboard",
+      "description": "Comprehensive admin panel with menu management, staff management, live revenue reports, daily/weekly/monthly reports, and role switching capabilities.",
+      "files": [
+        "client/src/pages/AdminDashboard.tsx"
+      ]
+    },
+    {
+      "name": "Cashier Dashboard",
+      "description": "Dashboard for cashiers to view table orders, process payments (cash/card), apply discounts, and complete transactions.",
+      "files": [
+        "client/src/pages/CashierDashboard.tsx"
+      ]
+    },
+    {
+      "name": "Order Management",
+      "description": "Complete order lifecycle management including order creation, status updates, table movement, cancellation, and payment processing.",
+      "files": [
+        "client/src/pages/WaiterDashboard.tsx",
+        "client/src/pages/KitchenDashboard.tsx",
+        "client/src/pages/BarDashboard.tsx",
+        "server/src/index.ts"
+      ]
+    },
+    {
+      "name": "Menu Management",
+      "description": "Menu item CRUD operations with support for categories (kitchen/bar/dessert/campaign), pricing, and special items like campaign menus with multiple items.",
+      "files": [
+        "client/src/pages/AdminDashboard.tsx",
+        "server/src/index.ts",
+        "server/data/menu.json"
+      ]
+    },
+    {
+      "name": "Table Management",
+      "description": "Visual table layout system with 20 tables, status tracking (empty/pending/ready/served), and table movement functionality.",
+      "files": [
+        "client/src/pages/WaiterDashboard.tsx",
+        "client/src/pages/CashierDashboard.tsx"
+      ]
+    },
+    {
+      "name": "Payment System",
+      "description": "Payment processing with support for cash and card payments, discount application, and payment history tracking.",
+      "files": [
+        "client/src/pages/CashierDashboard.tsx",
+        "server/src/index.ts"
+      ]
+    },
+    {
+      "name": "Reporting System",
+      "description": "Comprehensive reporting system with live revenue tracking, daily/weekly/monthly reports, waiter sales analysis, top products, and payment method breakdowns.",
+      "files": [
+        "client/src/pages/AdminDashboard.tsx",
+        "server/src/index.ts"
+      ]
+    },
+    {
+      "name": "Staff Management",
+      "description": "Admin functionality to create and delete waiter and cashier staff members with PIN-based authentication.",
+      "files": [
+        "client/src/pages/AdminDashboard.tsx",
+        "server/src/auth.ts",
+        "server/src/index.ts"
+      ]
+    },
+    {
+      "name": "Data Management",
+      "description": "JSON-based data persistence for users, menu, orders, and completed orders with file-based CRUD operations.",
+      "files": [
+        "server/src/dataManager.ts",
+        "server/data/users.json",
+        "server/data/menu.json",
+        "server/data/orders.json",
+        "server/data/completed-orders.json"
+      ]
+    },
+    {
+      "name": "Routing System",
+      "description": "React Router based navigation with protected routes based on user roles and automatic redirects.",
+      "files": [
+        "client/src/App.tsx",
+        "client/src/components/ProtectedRoute.tsx"
+      ]
+    }
+  ]
+}

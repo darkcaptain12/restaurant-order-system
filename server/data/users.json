@@ -1,0 +1,80 @@
+[
+  {
+    "id": "admin",
+    "username": "admin",
+    "role": "admin",
+    "pin": "5678"
+  },
+  {
+    "id": "kitchen",
+    "username": "mutfak",
+    "role": "kitchen",
+    "pin": "mutfak"
+  },
+  {
+    "id": "bar",
+    "username": "bar",
+    "role": "bar",
+    "pin": "bar"
+  },
+  {
+    "id": "waiter_1762985143662",
+    "username": "1",
+    "role": "waiter",
+    "pin": "1"
+  },
+  {
+    "id": "waiter_1762985147827",
+    "username": "2",
+    "role": "waiter",
+    "pin": "2"
+  },
+  {
+    "id": "cashier_1762985151906",
+    "username": "1",
+    "role": "cashier",
+    "pin": "11"
+  },
+  {
+    "id": "waiter_1762987749608",
+    "username": "testuser",
+    "role": "waiter",
+    "pin": "1234"
+  },
+  {
+    "id": "waiter_1762987773535",
+    "username": "waiter_test",
+    "role": "waiter",
+    "pin": "1234"
+  },
+  {
+    "id": "waiter_ahmet",
+    "username": "Ahmet",
+    "role": "waiter",
+    "pin": "1234"
+  },
+  {
+    "id": "waiter_mehmet",
+    "username": "Mehmet",
+    "role": "waiter",
+    "pin": "4321"
+  },
+  {
+    "id": "waiter_1762988414961",
+    "username": "new_waiter_001",
+    "role": "waiter",
+    "pin": "5678"
+  },
+  {
+    "id": "waiter_1763050202205",
+    "username": "new_waiter_002",
+    "role": "waiter",
+    "pin": "7890"
+  },
+  {
+    "id": "waiter_1763050394957",
+    "username": "test_add_user",
+    "role": "waiter",
+    "pin": "9999"
+  }
+]

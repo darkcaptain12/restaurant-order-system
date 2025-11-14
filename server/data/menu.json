@@ -1,0 +1,280 @@
+[
+  {
+    "id": "1",
+    "name": "Hamburger",
+    "price": 150,
+    "category": "kitchen",
+    "menuCategory": "food"
+  },
+  {
+    "id": "2",
+    "name": "Pizza Margherita",
+    "price": 200,
+    "category": "kitchen",
+    "menuCategory": "food"
+  },
+  {
+    "id": "3",
+    "name": "Tavuk Şiş",
+    "price": 180,
+    "category": "kitchen",
+    "menuCategory": "food"
+  },
+  {
+    "id": "4",
+    "name": "Lahmacun",
+    "price": 80,
+    "category": "kitchen",
+    "menuCategory": "food"
+  },
+  {
+    "id": "5",
+    "name": "Döner",
+    "price": 120,
+    "category": "kitchen",
+    "menuCategory": "food"
+  },
+  {
+    "id": "6",
+    "name": "Köfte",
+    "price": 160,
+    "category": "kitchen",
+    "menuCategory": "food"
+  },
+  {
+    "id": "7",
+    "name": "Balık",
+    "price": 250,
+    "category": "kitchen",
+    "menuCategory": "food"
+  },
+  {
+    "id": "8",
+    "name": "Salata",
+    "price": 60,
+    "category": "kitchen",
+    "menuCategory": "food"
+  },
+  {
+    "id": "9",
+    "name": "Çorba",
+    "price": 50,
+    "category": "kitchen",
+    "menuCategory": "food"
+  },
+  {
+    "id": "10",
+    "name": "Makarna",
+    "price": 100,
+    "category": "kitchen",
+    "menuCategory": "food"
+  },
+  {
+    "id": "11",
+    "name": "Bira",
+    "price": 50,
+    "category": "bar",
+    "menuCategory": "drink"
+  },
+  {
+    "id": "12",
+    "name": "Şarap",
+    "price": 300,
+    "category": "bar",
+    "menuCategory": "drink"
+  },
+  {
+    "id": "13",
+    "name": "Kokteyl",
+    "price": 150,
+    "category": "bar",
+    "menuCategory": "drink"
+  },
+  {
+    "id": "14",
+    "name": "Meyve Suyu",
+    "price": 40,
+    "category": "bar",
+    "menuCategory": "drink"
+  },
+  {
+    "id": "15",
+    "name": "Kahve",
+    "price": 30,
+    "category": "bar",
+    "menuCategory": "drink"
+  },
+  {
+    "id": "16",
+    "name": "Çay",
+    "price": 20,
+    "category": "bar",
+    "menuCategory": "drink"
+  },
+  {
+    "id": "17",
+    "name": "Kola",
+    "price": 35,
+    "category": "bar",
+    "menuCategory": "drink"
+  },
+  {
+    "id": "18",
+    "name": "Su",
+    "price": 10,
+    "category": "bar",
+    "menuCategory": "drink"
+  },
+  {
+    "id": "19",
+    "name": "Baklava",
+    "price": 80,
+    "category": "kitchen",
+    "menuCategory": "dessert"
+  },
+  {
+    "id": "20",
+    "name": "Sütlaç",
+    "price": 120,
+    "category": "kitchen",
+    "menuCategory": "dessert",
+    "extras": "Updated description for testing"
+  },
+  {
+    "id": "21",
+    "name": "Tiramisu",
+    "price": 90,
+    "category": "kitchen",
+    "menuCategory": "dessert"
+  },
+  {
+    "id": "22",
+    "name": "Dondurma",
+    "price": 100,
+    "category": "bar",
+    "menuCategory": "dessert",
+    "extras": "Updated description for testing"
+  },
+  {
+    "id": "23",
+    "name": "Cheesecake",
+    "price": 100,
+    "category": "bar",
+    "menuCategory": "dessert"
+  },
+  {
+    "id": "24",
+    "name": "Brownie",
+    "price": 70,
+    "category": "bar",
+    "menuCategory": "dessert"
+  },
+  {
+    "id": "25",
+    "name": "Kampanya Menü 1",
+    "price": 250,
+    "category": "campaign",
+    "menuCategory": "campaign",
+    "items": [
+      {
+        "id": "1",
+        "name": "Hamburger",
+        "category": "kitchen"
+      },
+      {
+        "id": "11",
+        "name": "Bira",
+        "category": "bar"
+      },
+      {
+        "id": "19",
+        "name": "Baklava",
+        "category": "kitchen"
+      }
+    ]
+  },
+  {
+    "id": "26",
+    "name": "Kampanya Menü 2",
+    "price": 300,
+    "category": "campaign",
+    "menuCategory": "campaign",
+    "items": [
+      {
+        "id": "2",
+        "name": "Pizza Margherita",
+        "category": "kitchen"
+      },
+      {
+        "id": "12",
+        "name": "Şarap",
+        "category": "bar"
+      },
+      {
+        "id": "22",
+        "name": "Dondurma",
+        "category": "bar"
+      }
+    ]
+  },
+  {
+    "id": "27",
+    "name": "Kampanya Menü 3",
+    "price": 200,
+    "category": "campaign",
+    "menuCategory": "campaign",
+    "items": [
+      {
+        "id": "4",
+        "name": "Lahmacun",
+        "category": "kitchen"
+      },
+      {
+        "id": "14",
+        "name": "Meyve Suyu",
+        "category": "bar"
+      }
+    ]
+  },
+  {
+    "id": "1762985970382",
+    "name": "Menü 5",
+    "price": 500,
+    "category": "campaign",
+    "menuCategory": "campaign",
+    "items": [
+      {
+        "id": "4",
+        "name": "Lahmacun",
+        "category": "kitchen"
+      },
+      {
+        "id": "15",
+        "name": "Kahve",
+        "category": "bar"
+      }
+    ]
+  },
+  {
+    "id": "1762988423613",
+    "name": "Test Kitchen Item",
+    "price": 100,
+    "category": "kitchen",
+    "menuCategory": "food"
+  },
+  {
+    "id": "1763050216897",
+    "name": "Test Kitchen Item",
+    "price": 123,
+    "category": "kitchen",
+    "menuCategory": "food",
+    "extras": "Test item for kitchen category"
+  },
+  {
+    "id": "1763050353708",
+    "name": "Campaign Test Item",
+    "price": 250,
+    "category": "campaign",
+    "menuCategory": "campaign"
+  }
+]
