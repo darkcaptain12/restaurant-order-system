@@ -75,6 +75,11 @@ export default function AdminDashboard() {
   const [newCampaignItem, setNewCampaignItem] = useState({ name: '', category: 'kitchen' });
   const [editingItem, setEditingItem] = useState<MenuItem | null>(null);
   const [addingMenuItem, setAddingMenuItem] = useState(false);
+  // Haftalık ve aylık tarih aralıkları için state
+  const [weeklyStart, setWeeklyStart] = useState('');
+  const [weeklyEnd, setWeeklyEnd] = useState('');
+  const [monthlyStart, setMonthlyStart] = useState('');
+  const [monthlyEnd, setMonthlyEnd] = useState('');
 
   useEffect(() => {
     if (activeTab === 'live') {
@@ -145,7 +150,15 @@ export default function AdminDashboard() {
   const fetchPeriodReport = async (period: 'weekly' | 'monthly') => {
     setLoading(true);
     try {
-      const res = await fetch(getApiUrl(`/api/reports/${period}`), {
+      let url = getApiUrl(`/api/reports/${period}`);
+
+      if (period === 'weekly' && weeklyStart && weeklyEnd) {
+        url += `?start=${weeklyStart}&end=${weeklyEnd}`;
+      } else if (period === 'monthly' && monthlyStart && monthlyEnd) {
+        url += `?start=${monthlyStart}&end=${monthlyEnd}`;
+      }
+
+      const res = await fetch(url, {
         credentials: 'include'
       });
       if (res.ok) {
@@ -159,6 +172,66 @@ export default function AdminDashboard() {
       alert('Hata oluştu');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const clearWeeklyRange = async () => {
+    if (!weeklyStart || !weeklyEnd) {
+      alert('Önce haftalık tarih aralığını seçmelisiniz.');
+      return;
+    }
+
+    if (!window.confirm(`${weeklyStart} - ${weeklyEnd} arasındaki verileri silmek istediğinize emin misiniz? Bu işlem geri alınamaz.`)) {
+      return;
+    }
+
+    try {
+      const res = await fetch(getApiUrl('/api/reports/clear-range'), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ start: weeklyStart, end: weeklyEnd })
+      });
+
+      if (!res.ok) {
+        alert('Seçili aralık silinemedi');
+        return;
+      }
+
+      await fetchPeriodReport('weekly');
+    } catch (error) {
+      console.error('Failed to clear weekly range:', error);
+      alert('Haftalık aralık silinirken hata oluştu');
+    }
+  };
+
+  const clearMonthlyRange = async () => {
+    if (!monthlyStart || !monthlyEnd) {
+      alert('Önce aylık tarih aralığını seçmelisiniz.');
+      return;
+    }
+
+    if (!window.confirm(`${monthlyStart} - ${monthlyEnd} arasındaki verileri silmek istediğinize emin misiniz? Bu işlem geri alınamaz.`)) {
+      return;
+    }
+
+    try {
+      const res = await fetch(getApiUrl('/api/reports/clear-range'), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ start: monthlyStart, end: monthlyEnd })
+      });
+
+      if (!res.ok) {
+        alert('Seçili aralık silinemedi');
+        return;
+      }
+
+      await fetchPeriodReport('monthly');
+    } catch (error) {
+      console.error('Failed to clear monthly range:', error);
+      alert('Aylık aralık silinirken hata oluştu');
     }
   };
 
@@ -686,6 +759,56 @@ export default function AdminDashboard() {
 
         {(activeTab === 'weekly' || activeTab === 'monthly') && (
           <>
+            <div className="bg-white p-4 rounded-xl shadow-lg border border-gray-200 mb-4">
+              <div className="flex flex-wrap items-end gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Başlangıç Tarihi
+                  </label>
+                  <input
+                    type="date"
+                    value={activeTab === 'weekly' ? weeklyStart : monthlyStart}
+                    onChange={(e) =>
+                      activeTab === 'weekly'
+                        ? setWeeklyStart(e.target.value)
+                        : setMonthlyStart(e.target.value)
+                    }
+                    className="px-3 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Bitiş Tarihi
+                  </label>
+                  <input
+                    type="date"
+                    value={activeTab === 'weekly' ? weeklyEnd : monthlyEnd}
+                    onChange={(e) =>
+                      activeTab === 'weekly'
+                        ? setWeeklyEnd(e.target.value)
+                        : setMonthlyEnd(e.target.value)
+                    }
+                    className="px-3 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
+                  />
+                </div>
+                <button
+                  onClick={() => fetchPeriodReport(activeTab as 'weekly' | 'monthly')}
+                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold text-sm shadow-md hover:shadow-lg transition-all"
+                >
+                  Raporu Göster
+                </button>
+                <button
+                  onClick={activeTab === 'weekly' ? clearWeeklyRange : clearMonthlyRange}
+                  className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-semibold text-sm shadow-md hover:shadow-lg transition-all"
+                >
+                  Seçili Aralığı Sıfırla
+                </button>
+              </div>
+              <p className="mt-2 text-xs text-gray-500">
+                Not: Günlük ve anlık ciro bu işlemden etkilenmez, sadece seçili tarih aralığındaki geçmiş kayıtlar temizlenir.
+              </p>
+            </div>
+
             {loading ? (
               <div className="bg-white p-12 rounded-xl shadow-md text-center border border-gray-200">
                 <div className="text-6xl mb-4 animate-bounce">⏳</div>
@@ -695,7 +818,8 @@ export default function AdminDashboard() {
               <div>
                 <div className="mb-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
                   <p className="text-sm text-blue-800">
-                    📅 {new Date(periodReport.startDate).toLocaleDateString('tr-TR')} - {new Date(periodReport.endDate).toLocaleDateString('tr-TR')}
+                    📅 {new Date(periodReport.startDate).toLocaleDateString('tr-TR')} -{' '}
+                    {new Date(periodReport.endDate).toLocaleDateString('tr-TR')}
                   </p>
                 </div>
                 {renderReport(periodReport)}
@@ -705,7 +829,7 @@ export default function AdminDashboard() {
                 <div className="text-6xl mb-4">⚠️</div>
                 <p className="text-gray-500 font-medium text-lg">Rapor yüklenemedi</p>
                 <button
-                  onClick={() => fetchPeriodReport(activeTab)}
+                  onClick={() => fetchPeriodReport(activeTab as 'weekly' | 'monthly')}
                   className="mt-4 bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg font-medium transition-all duration-200"
                 >
                   Tekrar Dene
