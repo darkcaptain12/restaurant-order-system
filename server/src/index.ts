@@ -849,31 +849,49 @@ app.get('/api/reports/:period', (req, res) => {
   const allOrders = [...orders, ...completedOrders];
 
   const now = new Date();
-  let startDate: Date;
 
-  if (period === 'daily') {
-    startDate = new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      now.getDate()
-    );
-  } else if (period === 'weekly') {
-    const dayOfWeek = now.getDay();
-    startDate = new Date(now);
-    startDate.setDate(now.getDate() - dayOfWeek);
-    startDate.setHours(0, 0, 0, 0);
+  // 👉 Opsiyonel tarih aralığı (sadece weekly / monthly için)
+  const { start, end } = req.query as { start?: string; end?: string };
+
+  let startDate: Date;
+  let endDate: Date;
+
+  if (start && end && (period === 'weekly' || period === 'monthly')) {
+    // Kullanıcının seçtiği aralık
+    startDate = new Date(start);
+    endDate = new Date(end);
+    endDate.setHours(23, 59, 59, 999);
   } else {
-    startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+    // Eski varsayılan davranış
+    if (period === 'daily') {
+      startDate = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate()
+      );
+    } else if (period === 'weekly') {
+      const dayOfWeek = now.getDay();
+      startDate = new Date(now);
+      startDate.setDate(now.getDate() - dayOfWeek);
+      startDate.setHours(0, 0, 0, 0);
+    } else {
+      startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+    }
+    endDate = now;
   }
 
   const filteredOrders = allOrders.filter((order) => {
     const orderDate = new Date(order.createdAt);
-    return orderDate >= startDate && order.isPaid && order.payment;
+    return (
+      orderDate >= startDate &&
+      orderDate <= endDate &&
+      order.isPaid &&
+      order.payment
+    );
   });
 
   let totalRevenue = 0;
-  const waiterSales: Record<string, { name: string; sales: number }> =
-    {};
+  const waiterSales: Record<string, { name: string; sales: number }> = {};
   const paymentMethods = { cash: 0, card: 0 };
 
   filteredOrders.forEach((order) => {
@@ -893,8 +911,7 @@ app.get('/api/reports/:period', (req, res) => {
             sales: 0,
           };
         }
-        waiterSales[order.waiterId].sales +=
-          order.payment.finalAmount;
+        waiterSales[order.waiterId].sales += order.payment.finalAmount;
       }
     }
   });
@@ -906,7 +923,54 @@ app.get('/api/reports/:period', (req, res) => {
     paymentMethods,
     orderCount: filteredOrders.length,
     startDate: startDate.toISOString(),
-    endDate: now.toISOString(),
+    endDate: endDate.toISOString(),
+  });
+});
+
+// Belirli tarih aralığındaki verileri temizleme (haftalık/aylık rapor aralığı için)
+// NOT: Bugünün siparişlerini silmez ki günlük ve anlık ciro bozulmasın.
+app.post('/api/reports/clear-range', (req, res) => {
+  const user = (req.session as any)?.user;
+  if (!user || user.role !== 'admin') {
+    return res.status(403).json({ error: 'Unauthorized' });
+  }
+
+  const { start, end } = req.body as { start?: string; end?: string };
+
+  if (!start || !end) {
+    return res.status(400).json({ error: 'start ve end zorunlu (YYYY-MM-DD)' });
+  }
+
+  const startDate = new Date(start);
+  const endDate = new Date(end);
+  endDate.setHours(23, 59, 59, 999);
+
+  const todayStr = new Date().toISOString().split('T')[0];
+
+  let orders = readOrders();
+  let completedOrders = readCompletedOrders();
+
+  const isInRangeAndNotToday = (createdAt: string) => {
+    const d = new Date(createdAt);
+    const dateStr = createdAt.split('T')[0];
+    return d >= startDate && d <= endDate && dateStr !== todayStr;
+  };
+
+  const beforeOrdersLen = orders.length;
+  const beforeCompletedLen = completedOrders.length;
+
+  orders = orders.filter((o) => !isInRangeAndNotToday(o.createdAt));
+  completedOrders = completedOrders.filter(
+    (o) => !isInRangeAndNotToday(o.createdAt)
+  );
+
+  writeOrders(orders);
+  writeCompletedOrders(completedOrders);
+
+  res.json({
+    success: true,
+    removedOrders: beforeOrdersLen - orders.length,
+    removedCompletedOrders: beforeCompletedLen - completedOrders.length,
   });
 });
 
