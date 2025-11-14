@@ -82,18 +82,6 @@ export default function Login() {
             {loading ? '⏳ Giriş yapılıyor...' : '🔐 Giriş Yap'}
           </button>
         </form>
-
-        <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
-          <p className="font-semibold mb-2 text-blue-800 text-sm">Giriş Bilgileri:</p>
-          <ul className="text-xs text-blue-700 space-y-1">
-            <li>• <strong>1234</strong> → Ahmet (Garson)</li>
-            <li>• <strong>4321</strong> → Mehmet (Garson)</li>
-            <li>• <strong>5678</strong> → Admin</li>
-            <li>• <strong>mutfak</strong> → Mutfak Paneli</li>
-            <li>• <strong>bar</strong> → Bar Paneli</li>
-            <li>• <strong>kasa</strong> → Kasa Paneli</li>
-          </ul>
-        </div>
       </div>
     </div>
   );
